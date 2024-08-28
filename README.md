@@ -27,9 +27,11 @@ desafioML/
 # Prerequisites
 Before running the project, you will need:
 
-AWS Account: To use S3, SES e Secrets Manager.
-PostgreSQL Database: A configured AWS RDS database.
-Docker: To run the project in a container.
+- AWS Account: To use S3, SES e Secrets Manager.
+- PostgreSQL Database: A configured AWS RDS database.
+- Docker: To run the project in a container.
+
+* You can use any computing structure that supports Docker, in this case I run it on an EC2.
 
 ## 1. AWS Setup
   1. Secrets Manager: Create a secret in AWS Secrets Manager to store PostgreSQL database credentials. The secret name should be rds/credentials/desafioML.
