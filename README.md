@@ -38,11 +38,26 @@ Before running the project, you will need:
 
   2. S3 Bucket: Create an S3 bucket and upload the files:
 
-    - classifications.json
-    - users.csv
-  - SES (Simple Email Service): Verify the email addresses that will be used for sending and receiving emails.
+- classifications.json
+    
+```bash
+{
+"database_name": "sample_name",
+"owner_id": 123,
+"owner_email": "sample@domain.com",
+"classification": "high"
+}
+```
+   
+- users.csv
 
-3.Create the database and the owners and database tables in the database
+```bash
+row_id,user_id,user_state,user_manager
+```
+
+3. SES (Simple Email Service): Verify the email addresses that will be used for sending and receiving emails.
+
+4. Create the database and the owners and database tables in the database
 ```bash
 -- Create database
 CREATE DATABASE db_desafioml;
