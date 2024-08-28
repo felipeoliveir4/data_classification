@@ -157,7 +157,8 @@ cython_debug/
 # Ignorar caches de python
 __pycache__/
 
-
+set_env_desafioML.sh
+set_env.sh
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

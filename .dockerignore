@@ -1,0 +1,7 @@
+__pycache__/
+data_processing.log
+email_test.log
+send_teste_email.py
+test_secrets.py
+set_env.sh
+set_env_desafioML.sh
