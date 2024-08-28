@@ -159,6 +159,9 @@ __pycache__/
 
 set_env_desafioML.sh
 set_env.sh
+send_teste_email.py
+set_env_desafioML.sh
+test_secrets.py
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

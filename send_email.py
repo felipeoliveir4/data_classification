@@ -4,14 +4,14 @@ from botocore.exceptions import ClientError
 import logging
 import time
 
-# Configuração de logging
+# Logging configuration
 logging.basicConfig(
     filename='email_test.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Função para enviar e-mails um por vez
+# Function to send emails one at a time
 def send_emails(sender_email, recipient_emails, subject, body_text):
     ses = boto3.client('ses', region_name='us-east-1')
 
@@ -34,10 +34,10 @@ def send_emails(sender_email, recipient_emails, subject, body_text):
                 }
             )
             message_id = response['MessageId']
-            logging.info(f"E-mail enviado com sucesso para {recipient_email}! Message ID: {message_id}")
-            print(f"E-mail enviado com sucesso para {recipient_email}! Message ID: {message_id}")
+            logging.info(f"Email sent successfully to {recipient_email}! Message ID: {message_id}")
+            print(f"Email sent successfully to {recipient_email}! Message ID: {message_id}")
         except ClientError as e:
-            logging.error(f"Erro ao enviar e-mail para {recipient_email}: {e.response['Error']['Message']}")
-            print(f"Erro ao enviar e-mail para {recipient_email}: {e.response['Error']['Message']}")
+            logging.error(f"Email sent successfully to {recipient_email}: {e.response['Error']['Message']}")
+            print(f"Email sent successfully to {recipient_email}: {e.response['Error']['Message']}")
 
-        time.sleep(1)  # Aguardar 1 segundo entre cada envio, respeitando o limite de SES
+        time.sleep(1)  # Wait 1 second between each sending, respecting the SES limit

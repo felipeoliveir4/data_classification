@@ -4,11 +4,11 @@ import logging
 from botocore.exceptions import ClientError
 from s3 import get_secret
 
-# Função para conectar ao banco de dados RDS utilizando as credenciais do Secrets Manager
+# Function to connect to the RDS database using Secrets Manager credentials
 def connect_rds():
     secret = get_secret()
     if not secret:
-        raise Exception("Não foi possível obter as credenciais do Secrets Manager.")
+        raise Exception("Unable to get Secrets Manager credentials.")
 
     return psycopg2.connect(
         host=secret['host'],
@@ -17,7 +17,7 @@ def connect_rds():
         password=secret['password']
     )
 
-# Função para verificar se um registro já existe no banco de dados
+# Function to check if a record already exists in the database
 def record_exists(database_name):
     conn = connect_rds()
     cursor = conn.cursor()
@@ -27,13 +27,13 @@ def record_exists(database_name):
     conn.close()
     return result is not None
 
-# Função para inserir ou atualizar dados no banco de dados PostgreSQL
+# Function to insert or update data in the PostgreSQL database
 def upsert_data_into_db(database_name, classification, owner_email, manager_email):
     conn = connect_rds()
     cursor = conn.cursor()
 
     if record_exists(database_name):
-        # Atualizar registro existente
+        # Update existing record
         cursor.execute('''
             UPDATE owners SET owner_email = %s, manager_email = %s
             WHERE id = (SELECT owner_id FROM databases WHERE database_name = %s)
@@ -44,9 +44,9 @@ def upsert_data_into_db(database_name, classification, owner_email, manager_emai
             WHERE database_name = %s
         ''', (classification, database_name))
 
-        logging.info(f"Registro atualizado: {database_name}")
+        logging.info(f"Updated record: {database_name}")
     else:
-        # Inserir novo registro
+        # Insert new record
         cursor.execute('''
             INSERT INTO owners (owner_email, manager_email)
             VALUES (%s, %s)
@@ -59,7 +59,7 @@ def upsert_data_into_db(database_name, classification, owner_email, manager_emai
             VALUES (%s, %s, %s)
         ''', (database_name, classification, owner_id))
 
-        logging.info(f"Registro inserido: {database_name}")
+        logging.info(f"Record inserted: {database_name}")
 
     conn.commit()
     cursor.close()

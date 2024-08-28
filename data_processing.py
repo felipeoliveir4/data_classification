@@ -9,23 +9,23 @@ from database import upsert_data_into_db
 from s3 import download_file_from_s3
 from send_email import send_emails
 
-# Configurar o log
+# Configure logging
 logging.basicConfig(
     filename='data_processing.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Nome do bucket S3 e os arquivos dentro dele
+# Name of the S3 bucket and the files inside it
 bucket_name = 'bucket-desafioml'
 json_file_s3 = 'classifications.json'
 csv_file_s3 = 'users.csv'
 
-# Usar variáveis de ambiente para evitar hardcoded emails
+# Use environment variables to avoid hardcoded emails
 dpo = os.getenv("DPO_EMAIL", "default_dpo@domain.com")
 email_delivery = os.getenv("EMAIL_DELIVERY", "default_email_sender@domain.com")
 
-# Função para processar o arquivo CSV
+# Function to process CSV file
 def process_csv(csv_content):
     csv_data = pd.read_csv(StringIO(csv_content))
     owner_manager_map = {}
@@ -37,10 +37,10 @@ def process_csv(csv_content):
 
     return owner_manager_map
 
-# Função para enviar email se classificação for "high"
+# Function to send email if rating is "high"
 def check_and_send_email(database_name, classification, manager_email):
     if classification == 'high':
-        logging.info(f"Banco de dados {database_name} classificado como 'high'. Enviando e-mail para o manager {manager_email}...")
+        logging.info(f"Database {database_name} classified as 'high'. Sending email to manager {manager_email}...")
 
         subject = f"Approval Needed for {database_name} Database Classification"
         body_text = (f"Dear Manager,\n\n"
@@ -49,24 +49,24 @@ def check_and_send_email(database_name, classification, manager_email):
                      "Best regards,\n"
                      "Meli Security Team")
 
-        # Chamar o script de envio de email
+        # Call the email sending script
         send_emails(email_delivery, [manager_email], subject, body_text)
 
-        # Aguardar 1 segundo entre envios para não violar limites de SES
+        # Wait 1 second between submissions to avoid violating SES limits
         time.sleep(1)
 
-# Baixar e processar o arquivo JSON do S3
+# Download and process JSON file from S3
 json_content = download_file_from_s3(bucket_name, json_file_s3)
 json_data = json.loads(json_content)
 
-# Baixar e processar o arquivo CSV do S3
+# Download and process CSV file from S3
 csv_content = download_file_from_s3(bucket_name, csv_file_s3)
 owner_manager_map = process_csv(csv_content)
 
-# Processar cada registro no arquivo JSON
+# Process each record in the JSON file
 for record in json_data:
     if 'database_name' not in record:
-        logging.warning(f"Pular registro por falta de nome do banco de dados: {record}")
+        logging.warning(f"Skipping record due to missing database name: {record}")
         continue
 
     if 'owner_email' not in record:
@@ -79,7 +79,7 @@ for record in json_data:
     else:
         manager_email = dpo
 
-    # Inserir ou atualizar os dados no banco de dados
+    # Insert or update data in the database
     upsert_data_into_db(
         database_name=record['database_name'],
         classification=record['classification'],
@@ -87,12 +87,12 @@ for record in json_data:
         manager_email=manager_email
     )
 
-    # Verificar e enviar o email após a inserção no banco de dados
+    # Check and send the email after inserting it into the database
     check_and_send_email(
         database_name=record['database_name'],
         classification=record['classification'],
         manager_email=manager_email
     )
 
-logging.info("Processamento de dados concluído.")
-print("Processamento de dados concluído.")
+logging.info("Data processing completed.")
+print("Data processing completed.")
