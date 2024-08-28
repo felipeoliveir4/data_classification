@@ -1,0 +1,15 @@
+2024-08-28 15:30:51,859 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:52,198 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:52,412 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:52,566 - INFO - Registro atualizado: finance
+2024-08-28 15:30:52,591 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:52,758 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:52,902 - INFO - Registro atualizado: HR
+2024-08-28 15:30:52,926 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:53,096 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:53,313 - INFO - Registro atualizado: Marketing
+2024-08-28 15:30:53,336 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:53,489 - INFO - Found credentials from IAM Role: EC2-DesafioML-Role
+2024-08-28 15:30:53,639 - INFO - Registro atualizado: IT
+2024-08-28 15:30:53,641 - WARNING - Pular registro por falta de nome do banco de dados: {'owner_email': 'mari@meli.com', 'classification': 'low'}
+2024-08-28 15:30:53,641 - INFO - Processamento de dados concluído.
